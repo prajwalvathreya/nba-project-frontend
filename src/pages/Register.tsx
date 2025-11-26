@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,8 +18,8 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await login({ username, password });
-      navigate('/groups'); // Redirect to groups after login
+      await register({ username, email, password });
+      navigate('/groups'); // Redirect to groups after registration and auto-login
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -31,10 +32,10 @@ const Login: React.FC = () => {
       <div className="card">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome Back
+            Join the League
           </h1>
           <p className="text-gray-600">
-            Sign in to your NBA Prediction account
+            Create your NBA Prediction account
           </p>
         </div>
 
@@ -57,7 +58,23 @@ const Login: React.FC = () => {
               onChange={(e) => setUsername(e.target.value)}
               required
               disabled={isLoading}
-              placeholder="Enter your username"
+              placeholder="nbafan2024"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="input-field"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={isLoading}
+              placeholder="you@example.com"
             />
           </div>
 
@@ -73,8 +90,11 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={isLoading}
-              placeholder="Enter your password"
+              placeholder="••••••••"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Password must be at least 8 characters with at least one letter and one number and special character.
+            </p>
           </div>
 
           <button
@@ -88,22 +108,22 @@ const Login: React.FC = () => {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Signing in...
+                Creating account...
               </span>
             ) : (
-              'Sign In'
+              'Create Account'
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-gray-600">
-            Don't have an account?{' '}
+            Already have an account?{' '}
             <Link
-              to="/register"
+              to="/login"
               className="text-nba-primary hover:text-blue-700 font-medium"
             >
-              Sign up here
+              Sign in here
             </Link>
           </p>
         </div>
@@ -112,4 +132,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;

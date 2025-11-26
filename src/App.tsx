@@ -1,39 +1,109 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import Register from './pages/Register';
+import Groups from './pages/Groups';
+import Predictions from './pages/Predictions';
+import Leaderboard from './pages/Leaderboard';
+
+// Separate Navbar component that uses authentication
+const Navbar: React.FC = () => {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  return (
+    <nav className="bg-nba-dark shadow-lg">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo/Brand - Always clickable to go home */}
+          <Link to="/" className="text-white text-xl font-bold hover:text-gray-300 transition-colors">
+            🏀 NBA Predictions
+          </Link>
+          
+          {/* Main Navigation - Only show for authenticated users */}
+          {isAuthenticated && (
+            <div className="hidden md:flex space-x-6">
+              <Link to="/groups" className="text-gray-300 hover:text-white transition-colors">
+                Groups
+              </Link>
+              <Link to="/predictions" className="text-gray-300 hover:text-white transition-colors">
+                Predictions
+              </Link>
+              <Link to="/leaderboard" className="text-gray-300 hover:text-white transition-colors">
+                Leaderboard
+              </Link>
+            </div>
+          )}
+
+          {/* Auth Section */}
+          <div className="flex items-center space-x-4">
+            {isAuthenticated ? (
+              <>
+                <span className="text-gray-300 text-sm">
+                  Welcome, {user?.username}!
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="text-gray-300 hover:text-white transition-colors">
+                  Login
+                </Link>
+                <Link to="/register" className="bg-nba-primary hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+        
+        {/* Mobile menu for authenticated users */}
+        {isAuthenticated && (
+          <div className="md:hidden pb-3">
+            <div className="flex flex-wrap gap-2">
+              <Link to="/groups" className="text-gray-300 hover:text-white text-sm">Groups</Link>
+              <Link to="/predictions" className="text-gray-300 hover:text-white text-sm">Predictions</Link>
+              <Link to="/leaderboard" className="text-gray-300 hover:text-white text-sm">Leaderboard</Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50">
-        {/* Simple navigation bar */}
-        <nav className="bg-nba-dark shadow-lg">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center h-16">
-              <div className="text-white text-xl font-bold">
-                🏀 NBA Predictions
-              </div>
-              <div className="space-x-6">
-                <a href="/" className="text-gray-300 hover:text-white">Home</a>
-                <a href="/login" className="text-gray-300 hover:text-white">Login</a>
-                <a href="/dashboard" className="text-gray-300 hover:text-white">Dashboard</a>
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        {/* Main content */}
-        <main className="container mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-50">
+          <Navbar />
+          
+          <main className="container mx-auto px-4 py-8">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/groups" element={<Groups />} />
+              <Route path="/predictions" element={<Predictions />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
