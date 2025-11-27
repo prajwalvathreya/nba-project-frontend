@@ -65,19 +65,31 @@ export const endpoints = {
     leave: (id: number) => `/groups/${id}/leave`,     // DELETE - leave group
     delete: (id: number) => `/groups/${id}`,          // DELETE - delete group
   },
-  
 
-  // Fixtures endpoints (for future integration)
   fixtures: {
-    upcoming: '/fixtures/upcoming',
-    current: '/fixtures/current',
+  next: '/fixtures/next',
+  upcoming: '/fixtures/upcoming',
+  byMatchNum: (matchNum: number) => `/fixtures/${matchNum}`,
+  },
+
+  predictions: {
+  create: '/predictions',                    // POST - create prediction
+  update: '/predictions',                    // PUT - update prediction
+  delete: '/predictions',                    // DELETE - delete prediction
+  myPredictions: '/predictions/me',          // GET - my predictions
+  byFixture: (fixtureId: number) => `/predictions/fixture/${fixtureId}`, // GET
+  byId: (predictionId: number) => `/predictions/${predictionId}`,        // GET
   },
   
-  // Predictions endpoints (for future integration)
-  predictions: {
-    create: '/predictions',
-    user: '/predictions/user',
-  },
+  leaderboard: {
+  byGroup: (groupId: number) => `/leaderboard/${groupId}`,
+  myRank: (groupId: number) => `/leaderboard/${groupId}/me`,
+  // Admin endpoints (if needed in frontend)
+  completeFixture: (fixtureId: number) => `/leaderboard/admin/fixtures/${fixtureId}/complete`,
+  updateFixtureScores: (fixtureId: number) => `/leaderboard/admin/fixtures/${fixtureId}/scores`,
+  recalculate: '/leaderboard/admin/recalculate',
+  }
+
 };
 
 // Request interceptor to add auth token
