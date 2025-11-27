@@ -1,6 +1,36 @@
 import { useState } from 'react';
 import { api, endpoints } from '../config/api';
-import type { Group, GroupCreate, GroupJoin, GroupMember } from '../types';
+
+// Define types locally
+interface Group {
+  group_id: number;
+  group_name: string;
+  group_code: string;
+  creator_id: number;
+  creator_username?: string;
+  creation_date: string;
+  member_count?: number;
+  is_creator?: boolean;
+  joined_date?: string;
+}
+
+interface GroupCreate {
+  group_name: string;
+}
+
+interface GroupJoin {
+  group_code: string;
+}
+
+interface GroupMember {
+  user_id: number;
+  username: string;
+  joined_date: string;
+  is_creator: boolean;
+  total_points?: number;
+  total_predictions?: number;
+  correct_predictions?: number;
+}
 
 export const useGroups = () => {
   const [loading, setLoading] = useState(false);

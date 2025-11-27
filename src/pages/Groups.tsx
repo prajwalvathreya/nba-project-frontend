@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useGroups } from '../hooks/useGroups';
-import { Group } from '../types';
 import { useAuth } from '../context/AuthContext';
+
+// Define Group type locally
+interface Group {
+  group_id: number;
+  group_name: string;
+  group_code: string;
+  creator_id: number;
+  creator_username?: string;
+  creation_date: string;
+  member_count?: number;
+  is_creator?: boolean;
+  joined_date?: string;
+}
 
 const Groups: React.FC = () => {
   const { user } = useAuth();
@@ -89,11 +101,7 @@ const Groups: React.FC = () => {
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">
-          👥 Prediction Groups
         </h1>
-        <span className="text-sm text-gray-600">
-          {groups.length} group{groups.length !== 1 ? 's' : ''}
-        </span>
       </div>
 
       {/* Error Display */}
@@ -206,7 +214,7 @@ const Groups: React.FC = () => {
 
         {/* Create Group Section */}
         <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Create New Group</h2>
+          <h2 className="text-xl font-semibold mb-4">Create a Group</h2>
           <form onSubmit={handleCreateGroup} className="space-y-4 max-w-md">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

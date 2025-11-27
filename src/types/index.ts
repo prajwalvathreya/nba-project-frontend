@@ -78,5 +78,3 @@ export interface GroupMember {
   total_predictions?: number;
   correct_predictions?: number;
 }
-
-console.log("LOADED TYPES FILE");
