@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo/Brand - Always clickable to go home */}
           <Link to="/" className="text-white text-xl font-bold hover:text-gray-300 transition-colors">
-            🏀 NBA Predictions
+            🏀
           </Link>
           
           {/* Main Navigation - Only show for authenticated users */}

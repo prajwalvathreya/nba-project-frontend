@@ -61,7 +61,7 @@ const Leaderboard: React.FC = () => {
         >
           {groups.map(group => (
             <option key={group.group_id} value={group.group_id}>
-              {group.group_name} (ID: {group.group_id})
+              {group.group_name}
             </option>
           ))}
         </select>
@@ -83,9 +83,6 @@ const Leaderboard: React.FC = () => {
                 <th className="py-2 px-4 text-left">Rank</th>
                 <th className="py-2 px-4 text-left">Username</th>
                 <th className="py-2 px-4 text-left">Points</th>
-                <th className="py-2 px-4 text-left">Predictions</th>
-                <th className="py-2 px-4 text-left">Exact</th>
-                <th className="py-2 px-4 text-left">Avg Points</th>
               </tr>
             </thead>
             <tbody>
@@ -94,9 +91,6 @@ const Leaderboard: React.FC = () => {
                   <td className="py-2 px-4">{entry.rank_position ?? idx + 1}</td>
                   <td className="py-2 px-4">{entry.username}</td>
                   <td className="py-2 px-4">{entry.total_points}</td>
-                  <td className="py-2 px-4">{entry.total_predictions}</td>
-                  <td className="py-2 px-4">{entry.exact_predictions}</td>
-                  <td className="py-2 px-4">{entry.avg_points_per_prediction?.toFixed(2) ?? '-'}</td>
                 </tr>
               ))}
             </tbody>

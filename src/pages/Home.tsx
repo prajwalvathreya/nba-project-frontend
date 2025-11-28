@@ -2,56 +2,40 @@ import React from 'react';
 
 const Home: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto py-16">
+    <div className="max-w-4xl mx-auto py-20 px-4">
       {/* Hero Section */}
-      <div className="text-center mb-16">
-        <h1 className="text-5xl font-bold text-gray-900 mb-6">
-          🏀 NBA Prediction League
+      <section className="text-center mb-20">
+        <h1 className="text-6xl font-extrabold text-nba-primary mb-4 tracking-tight flex items-center justify-center gap-2">
+          <span role="img" aria-label="basketball">🏀</span> Hoops Predictor
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          Compete with friends in predicting NBA game outcomes. 
-          Join groups, make predictions, and climb the leaderboard!
+        <p className="text-2xl text-gray-700 mb-8 max-w-xl mx-auto font-light">
+          Predict NBA game outcomes, challenge your friends, and climb the leaderboard!
         </p>
-        
-        <div className="space-x-4">
-          <button className="btn-primary text-lg px-8 py-3">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+          <button className="btn-primary text-lg px-8 py-3 rounded-full shadow-lg">
             Get Started
           </button>
-          <button className="btn-secondary text-lg px-8 py-3">
+          <button className="btn-secondary text-lg px-8 py-3 rounded-full">
             Sign In
           </button>
         </div>
-      </div>
+      </section>
 
       {/* Features Section */}
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="card text-center">
-          <div className="text-4xl mb-4">🎯</div>
-          <h3 className="text-xl font-semibold mb-3">Make Predictions</h3>
-          <p className="text-gray-600">
-            Predict scores and winners for upcoming NBA games. 
-            Earn points based on accuracy.
-          </p>
+      <section className="grid md:grid-cols-3 gap-8">
+        <div className="bg-white rounded-xl shadow-md p-8 flex flex-col items-center hover:shadow-xl transition-shadow">
+          <div className="text-5xl mb-4">🎯</div>
+          <h3 className="text-xl font-bold mb-2">Make Your Picks</h3>
         </div>
-
-        <div className="card text-center">
-          <div className="text-4xl mb-4">👥</div>
-          <h3 className="text-xl font-semibold mb-3">Join Groups</h3>
-          <p className="text-gray-600">
-            Create or join prediction groups with friends, family, 
-            or coworkers to compete together.
-          </p>
+        <div className="bg-white rounded-xl shadow-md p-8 flex flex-col items-center hover:shadow-xl transition-shadow">
+          <div className="text-5xl mb-4">👥</div>
+          <h3 className="text-xl font-bold mb-2">Compete in Groups</h3>
         </div>
-
-        <div className="card text-center">
-          <div className="text-4xl mb-4">🏆</div>
-          <h3 className="text-xl font-semibold mb-3">Climb Leaderboards</h3>
-          <p className="text-gray-600">
-            Track your ranking in each group and see how you 
-            stack up against other predictors.
-          </p>
+        <div className="bg-white rounded-xl shadow-md p-8 flex flex-col items-center hover:shadow-xl transition-shadow">
+          <div className="text-5xl mb-4">🏆</div>
+          <h3 className="text-xl font-bold mb-2">Top the Leaderboard</h3>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
