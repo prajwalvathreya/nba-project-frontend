@@ -7,8 +7,6 @@ export const getLastCompletedMatchNum = async (): Promise<number> => {
   return response.data.match_num;
 };
 
-console.log(getLastCompletedMatchNum());
-
 // Fetch past predictions with pagination (match number range)
 export const fetchPastPredictions = async (page: number, pageSize: number) => {
   const lastMatchNum = await getLastCompletedMatchNum();
@@ -83,7 +81,7 @@ export const usePredictions = () => {
     setError(null);
     
     try {
-      const response = await api.get<Fixture[]>(endpoints.fixtures.next);
+      const response = await api.get<Fixture[]>(endpoints.fixtures.nextWithPredictions);
       return response.data;
     } catch (err: any) {
       const errorMessage = err.response?.data?.detail || 'Failed to fetch fixtures';

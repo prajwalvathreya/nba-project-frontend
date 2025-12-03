@@ -77,7 +77,6 @@ const Predictions: React.FC = () => {
         getNextFixtures(),
         getMyGroups()
       ]);
-      
       setFixtures(nextFixtures);
       setGroups(userGroups);
 
@@ -255,22 +254,30 @@ const Predictions: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {fixtures.map((fixture) => {
-                const existingPrediction = getPredictionForFixture(fixture.match_num);
-                
-                return (
-                  <PredictionCard
-                    key={fixture.match_num}
-                    fixture={fixture}
-                    existingPrediction={existingPrediction}
-                    onMakePrediction={handleMakePrediction}
-                    onUpdatePrediction={handleUpdatePrediction}
-                    loading={predictionsLoading}
-                    formatDateTime={formatDateTime}
-                    groupCount={groups.length}
-                  />
-                );
-              })}
+                {fixtures.map((fixture) => {
+                  const existingPrediction = getPredictionForFixture(fixture.match_num);
+                  return (
+                    <div key={fixture.match_num} className="card mb-2 p-4">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <div className="font-semibold text-lg">{fixture.home_team} vs {fixture.away_team}</div>
+                          <div className="text-sm text-gray-600">{formatDateTime(fixture.start_time)}</div>
+                        </div>
+                        <div>
+                          <PredictionCard
+                            fixture={fixture}
+                            existingPrediction={existingPrediction}
+                            onMakePrediction={handleMakePrediction}
+                            onUpdatePrediction={handleUpdatePrediction}
+                            loading={predictionsLoading}
+                            formatDateTime={formatDateTime}
+                            groupCount={groups.length}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           )}
         </div>
@@ -322,40 +329,40 @@ const PredictionCard: React.FC<{
   formatDateTime: (startTime: string) => string;
   groupCount: number;
 }> = ({ fixture, existingPrediction, onMakePrediction, onUpdatePrediction, loading, formatDateTime, groupCount }) => {
-  const [homeScore, setHomeScore] = useState(existingPrediction?.pred_home_score?.toString() || '');
-  const [awayScore, setAwayScore] = useState(existingPrediction?.pred_away_score?.toString() || '');
-  const [isEditing, setIsEditing] = useState(false);
+  const [homeScore, setHomeScore] = useState(
+    fixture.home_score !== null ? fixture.home_score.toString() : ''
+  );
+  const [awayScore, setAwayScore] = useState(
+    fixture.away_score !== null ? fixture.away_score.toString() : ''
+  );
+  // Remove isEditing state, not needed for direct update
+
+  // Sync score fields with fixture scores when they change
+  React.useEffect(() => {
+    setHomeScore(fixture.home_score !== null ? fixture.home_score.toString() : '');
+    setAwayScore(fixture.away_score !== null ? fixture.away_score.toString() : '');
+  }, [fixture.home_score, fixture.away_score]);
 
   // Check if game has started (disable updates after start time)
   const gameStarted = new Date(fixture.start_time) <= new Date();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     const home = parseInt(homeScore);
     const away = parseInt(awayScore);
-    
     if (isNaN(home) || isNaN(away) || home < 0 || away < 0) {
       alert('Please enter valid scores');
       return;
     }
-
-    if (existingPrediction && isEditing) {
-      // Update existing prediction
+    // If scores are populated, always call update
+    if (fixture.home_score !== null && fixture.away_score !== null) {
       onUpdatePrediction(fixture.match_num, home, away);
-      setIsEditing(false);
     } else {
-      // Create new prediction
       onMakePrediction(fixture.match_num, home, away);
     }
   };
 
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    // Reset to original values
-    setHomeScore(existingPrediction?.pred_home_score?.toString() || '');
-    setAwayScore(existingPrediction?.pred_away_score?.toString() || '');
-  };
+  // Remove handleCancelEdit, not needed
 
   return (
     <div className="bg-gray-50 p-4 rounded-lg">
@@ -417,38 +424,14 @@ const PredictionCard: React.FC<{
             <div className="bg-gray-200 text-gray-600 px-4 py-2 rounded text-sm">
               🔒 Predictions locked
             </div>
-          ) : existingPrediction ? (
-            isEditing ? (
-              <div className="space-y-2">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-primary disabled:opacity-50 w-full"
-                >
-                  {loading ? 'Updating...' : 'Save Changes'}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCancelEdit}
-                  className="btn-secondary w-full text-sm"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-2 rounded text-sm text-center">
-                  ✅ Prediction submitted
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(true)}
-                  className="btn-secondary w-full text-sm"
-                >
-                  Update Prediction
-                </button>
-              </div>
-            )
+          ) : (fixture.home_score !== null && fixture.away_score !== null) ? (
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-secondary w-full text-sm"
+            >
+              {loading ? 'Updating...' : 'Update Prediction'}
+            </button>
           ) : (
             <button
               type="submit"
@@ -467,7 +450,7 @@ const PredictionCard: React.FC<{
           ? ' Predictions are locked after game start'
           : existingPrediction 
             ? ' You can update your prediction until the game starts'
-            : ' Prediction applied to all your groups'
+            : ' Prediction saved'
         }
       </div>
     </div>
