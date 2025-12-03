@@ -69,6 +69,8 @@ export const endpoints = {
   fixtures: {
   next: '/fixtures/next',
   upcoming: '/fixtures/upcoming',
+  lastUpdatedFixture: '/fixtures/lastupdatedfixture',
+  nextWithPredictions: '/fixtures/next-fixtures-with-predictions',
   byMatchNum: (matchNum: number) => `/fixtures/${matchNum}`,
   },
 

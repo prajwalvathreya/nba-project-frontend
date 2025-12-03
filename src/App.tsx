@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Groups from './pages/Groups';
 import Predictions from './pages/Predictions';
 import Leaderboard from './pages/Leaderboard';
+import PastPredictions from './pages/PastPredictions';
 
 // Separate Navbar component that uses authentication
 const Navbar: React.FC = () => {
@@ -35,6 +36,9 @@ const Navbar: React.FC = () => {
               </Link>
               <Link to="/predictions" className="text-gray-300 hover:text-white transition-colors">
                 Predictions
+              </Link>
+              <Link to="/pastpredictions" className="text-gray-300 hover:text-white transition-colors">
+                Past Predictions
               </Link>
               <Link to="/leaderboard" className="text-gray-300 hover:text-white transition-colors">
                 Leaderboard
@@ -75,6 +79,7 @@ const Navbar: React.FC = () => {
             <div className="flex flex-wrap gap-2">
               <Link to="/groups" className="text-gray-300 hover:text-white text-sm">Groups</Link>
               <Link to="/predictions" className="text-gray-300 hover:text-white text-sm">Predictions</Link>
+              <Link to="/pastpredictions" className="text-gray-300 hover:text-white text-sm">Past Predictions</Link>
               <Link to="/leaderboard" className="text-gray-300 hover:text-white text-sm">Leaderboard</Link>
             </div>
           </div>
@@ -98,6 +103,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/groups" element={<Groups />} />
               <Route path="/predictions" element={<Predictions />} />
+              <Route path="/pastpredictions" element={<PastPredictions />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
             </Routes>
           </main>

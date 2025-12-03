@@ -1,6 +1,24 @@
 import { useState } from 'react';
 import { api, endpoints } from '../config/api';
 
+// Fetch last completed match number from backend
+export const getLastCompletedMatchNum = async (): Promise<number> => {
+  const response = await api.get(endpoints.fixtures.lastUpdatedFixture);
+  return response.data.match_num;
+};
+
+console.log(getLastCompletedMatchNum());
+
+// Fetch past predictions with pagination (match number range)
+export const fetchPastPredictions = async (page: number, pageSize: number) => {
+  const lastMatchNum = await getLastCompletedMatchNum();
+  const max_match_num = lastMatchNum - (page - 1) * pageSize;
+  const min_match_num = Math.max(max_match_num - pageSize + 1, 1);
+  const url = `${endpoints.predictions.myPredictions}?min_match_num=${min_match_num}&max_match_num=${max_match_num}`;
+  const response = await api.get(url);
+  return response.data;
+};
+
 // Define types based on your actual API structure
 interface Fixture {
   match_num: number;
@@ -139,5 +157,6 @@ export const usePredictions = () => {
     getMyPredictions,
     createPrediction,
     updatePrediction,
+    fetchPastPredictions,
   };
 };
