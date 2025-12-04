@@ -8,6 +8,7 @@ import Groups from './pages/Groups';
 import Predictions from './pages/Predictions';
 import Leaderboard from './pages/Leaderboard';
 import PastPredictions from './pages/PastPredictions';
+import Profile from './pages/Profile';
 
 // Separate Navbar component that uses authentication
 const Navbar: React.FC = () => {
@@ -42,6 +43,9 @@ const Navbar: React.FC = () => {
               </Link>
               <Link to="/leaderboard" className="text-gray-300 hover:text-white transition-colors">
                 Leaderboard
+              </Link>
+              <Link to="/profile" className="text-gray-300 hover:text-white transition-colors">
+                Profile
               </Link>
             </div>
           )}
@@ -81,6 +85,7 @@ const Navbar: React.FC = () => {
               <Link to="/predictions" className="text-gray-300 hover:text-white text-sm">Predictions</Link>
               <Link to="/pastpredictions" className="text-gray-300 hover:text-white text-sm">Past Predictions</Link>
               <Link to="/leaderboard" className="text-gray-300 hover:text-white text-sm">Leaderboard</Link>
+              <Link to="/profile" className="text-gray-300 hover:text-white text-sm">Profile</Link>
             </div>
           </div>
         )}
@@ -105,6 +110,7 @@ function App() {
               <Route path="/predictions" element={<Predictions />} />
               <Route path="/pastpredictions" element={<PastPredictions />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </main>
         </div>
