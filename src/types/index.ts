@@ -7,6 +7,14 @@ export interface User {
   is_active: boolean;
 }
 
+// NBA Team type
+export interface Team {
+  team_id: number;
+  team_name: string;
+  city: string;
+  abbreviation: string;
+}
+
 // Registration data
 export interface UserRegister {
   username: string;

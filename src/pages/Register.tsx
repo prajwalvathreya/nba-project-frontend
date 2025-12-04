@@ -35,7 +35,7 @@ const Register: React.FC = () => {
             Join the League
           </h1>
           <p className="text-gray-600">
-            Create your NBA Prediction account
+            Create your account
           </p>
         </div>
 
@@ -58,7 +58,7 @@ const Register: React.FC = () => {
               onChange={(e) => setUsername(e.target.value)}
               required
               disabled={isLoading}
-              placeholder="nbafan2024"
+              placeholder="ilikebasketball"
             />
           </div>
 
