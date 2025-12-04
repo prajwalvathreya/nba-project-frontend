@@ -157,9 +157,6 @@ const Groups: React.FC = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <button className="btn-primary text-sm px-3 py-1 w-full">
-                      View Leaderboard
-                    </button>
                     
                     {group.is_creator ? (
                       <button
