@@ -400,7 +400,7 @@ const PredictionCard: React.FC<{
             min="0" 
             max="200"
             required
-            disabled={loading || (existingPrediction && !isEditing) || gameStarted}
+            disabled={loading || gameStarted}
           />
         </div>
         <div>
@@ -416,7 +416,7 @@ const PredictionCard: React.FC<{
             min="0" 
             max="200"
             required
-            disabled={loading || (existingPrediction && !isEditing) || gameStarted}
+            disabled={loading || gameStarted}
           />
         </div>
         <div>
